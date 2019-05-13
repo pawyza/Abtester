@@ -26,6 +26,7 @@
         <activity android:name="ib.edu.Abtester.StatisticsActivity" />
         <activity android:name="ib.edu.Abtester.InstructionActivity" />
         <activity android:name="ib.edu.Abtester.PretestActivity" />
+        <activity android:name="ib.edu.Abtester.BarGraphActivity" />
     </application>
 
 </manifest>

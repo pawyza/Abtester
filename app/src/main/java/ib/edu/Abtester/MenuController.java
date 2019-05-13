@@ -15,21 +15,33 @@ public class MenuController extends AppCompatActivity {
 
     public void onButtonStart(View view) {
         Intent intent = new Intent(view.getContext(), PretestActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("profileName",getIntent().getStringExtra("profileName"));
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 
     public void onButtonStatistics(View view) {
         Intent intent = new Intent(view.getContext(), StatisticsActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("profileName",getIntent().getStringExtra("profileName"));
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 
     public void onButtonInstruction(View view) {
         Intent intent = new Intent(view.getContext(), InstructionActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("profileName",getIntent().getStringExtra("profileName"));
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 
     public void onButtonLogout(View view) {
         Intent intent = new Intent(view.getContext(), LoginActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("profileName",getIntent().getStringExtra("profileName"));
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 }

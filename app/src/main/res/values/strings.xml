@@ -16,7 +16,7 @@
     <string name="menuStatistics">Pokaż statystyki</string>
     <string name="menuClose">Zamknij</string>
     <string name="menuReturn">Wróć</string>
-    <string name="menuTestExplanation">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="menuTestExplanation">Podczas testu będą prezentowane układy 3 elementów. Zadaniem użytkownika będzie przerysowanie elementów w takim samym ułożeniu na następnym oknie. Aplikacja uwzględnia rozmiar oraz przesunięcie przerysowanych elementów. Czas rysowania jest liczony od momentu rozpoczęcia pierwszej linii do momentu zakończenia rysowania ostatniej linii. Czas pomiędzy zakończeniem ostatniej linii, a naciśnięciem przycisku "ZAKOŃCZ TEST" nie jest uwzględniany. </string>
     <string name="pretestClause">Upewnij się czy zapoznałeś się z instrukcją do testu, jeśli rozumiesz zasady testu kontynuuj</string>
     <string name="menuContinue">Kontynuuj</string>
     <string name="timer">0</string>
@@ -52,4 +52,8 @@
     <string name="name">Imię</string>
     <string name="surname">Nazwisko</string>
     <string name="email">nazwa@domena.com</string>
+    <string name="chart1">Drawing speed [mm/ms]</string>
+    <string name="chart2">Line average time [ms]</string>
+    <string name="chart3">Space average time [ms]</string>
+    <string name="chart4">Total time [ms]</string>
 </resources>

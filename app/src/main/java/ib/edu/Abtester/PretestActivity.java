@@ -32,6 +32,7 @@ public class PretestActivity  extends AppCompatActivity {
             imagesNameList.add(getResources().getResourceName(id));
         }
         Bundle bundle = new Bundle();
+        bundle.putString("profileName",getIntent().getStringExtra("profileName"));
         bundle.putStringArrayList("imagesNameList",imagesNameList);
         bundle.putStringArrayList("drawingsNameList",drawingsNameList);
         intent.putExtras(bundle);
@@ -40,11 +41,17 @@ public class PretestActivity  extends AppCompatActivity {
 
     public void onButtonInstruction(View view) {
         Intent intent = new Intent(view.getContext(), InstructionActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("profileName",getIntent().getStringExtra("profileName"));
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 
     public void onButtonReturn(View view) {
         Intent intent = new Intent(view.getContext(), MenuController.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("profileName",getIntent().getStringExtra("profileName"));
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 }

@@ -23,6 +23,9 @@ public class InstructionActivity extends AppCompatActivity {
 
     public void onButtonReturn(View view) {
         Intent intent = new Intent(view.getContext(), MenuController.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("profileName",getIntent().getStringExtra("profileName"));
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 }

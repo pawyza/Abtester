@@ -29,6 +29,7 @@
         android:layout_marginEnd="8dp"
         android:text="@string/menuStatistics"
         android:onClick="onButtonStatistics"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonStart" />
@@ -45,7 +46,7 @@
         android:onClick="onButtonInstruction"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonStatistics" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonStart" />
 
     <Button
         android:id="@+id/buttonLogOut"
@@ -53,7 +54,7 @@
         android:layout_width="160dp"
         android:layout_height="65dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="160dp"
         android:layout_marginEnd="8dp"
         android:onClick="onButtonLogout"
         android:text="@string/logout"

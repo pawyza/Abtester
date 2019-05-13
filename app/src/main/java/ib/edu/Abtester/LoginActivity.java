@@ -15,7 +15,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onButtonLogin(View view) {
         Intent intent = new Intent(view.getContext(), MenuController.class);
         Bundle bundle = new Bundle();
-        bundle.putString("profilName","Tester");
+        bundle.putString("profileName","Tester");
         intent.putExtras(bundle);
         startActivity(intent);
     }

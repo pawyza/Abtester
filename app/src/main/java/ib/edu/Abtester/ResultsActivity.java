@@ -1,6 +1,7 @@
 package ib.edu.Abtester;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -39,6 +40,12 @@ public class ResultsActivity extends Activity {
     private ArrayList<TextView>  similarityTextViewArray;
     private String profileName;
 
+    private int totalLinesCount = 0;
+    private float totalTime = 0;
+    private float totalLinesTime = 0;
+    private float totalSpaceTime = 0;
+    private float averageSpeed = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +56,7 @@ public class ResultsActivity extends Activity {
     }
 
     private void loadData(){
-        profileName = getIntent().getStringExtra("profilName");
+        profileName = getIntent().getStringExtra("profileName");
         drawingsFilePath = getIntent().getStringArrayListExtra("drawingsFilePath");
         images = getIntent().getStringArrayListExtra("imagesNameList");
         xPositionsList = new ArrayList<>();
@@ -76,11 +83,9 @@ public class ResultsActivity extends Activity {
 
         StringBuilder dataToSave = new StringBuilder("Test " + profileName + " " + formattedDate + "\n");
 
-        int totalLinesCount = 0;
-        float totalTime = 0;
-        float totalLinesTime = 0;
-        float totalSpaceTime = 0;
-        float averageSpeed = 0;
+        
+        String formatter = "%.5g";
+        
         for(int i = 0; i<t;i++) {
             int linesCount = calcLinesCount(stateList.get(i));
             float testTime = calcTotalTime(timeList.get(i)); //calkowity czas rysowania
@@ -94,18 +99,19 @@ public class ResultsActivity extends Activity {
             averageSpeed += handSpeed;
             totalTime += lineTime;
 
-            dataToSave.append("Test: "  + images.get(i) + "\n");
+            int indexOfLast =images.get(i).lastIndexOf("/");
+            dataToSave.append("Test: "  + images.get(i).substring(indexOfLast+1, images.get(i).length()) + "\n");
             dataToSave.append("LinesCount: " + Integer.toString(linesCount) + "\n");
-            dataToSave.append("HandSpeed: " + String.format("%.5g%n", handSpeed) + "mm/ms");
-            dataToSave.append("TimeForSingleLine: " + String.format("%.5g%n", lineTime) + "ms");
-            dataToSave.append("TimeSpaceBetweenLines: " + String.format("%.5g%n", averageTime) + "ms");
-            dataToSave.append("TotalTime: " + String.format("%.5g%n", testTime) + "ms");
+            dataToSave.append("HandSpeed: " + String.format(formatter, handSpeed) + " mm/ms\n");
+            dataToSave.append("TimeForSingleLine: " + String.format(formatter, lineTime) + " ms\n");
+            dataToSave.append("TimeSpaceBetweenLines: " + String.format(formatter, averageTime) + " ms\n");
+            dataToSave.append("TotalTime: " + String.format(formatter, testTime) + " ms\n");
 
             linesCountTextViewArray.get(i).setText(Integer.toString(linesCount));
-            linesSpeedTextViewArray.get(i).setText(String.format("%.5g%n", handSpeed) + "\nmm/ms");
-            singleLineTextViewArray.get(i).setText(String.format("%.5g%n", lineTime) + "ms");
-            betweenTimeTextViewArray.get(i).setText(String.format("%.5g%n", averageTime) + "ms");
-            totalTimeTextViewArray.get(i).setText(String.format("%.5g%n", testTime) + "ms");
+            linesSpeedTextViewArray.get(i).setText(String.format(formatter, handSpeed) + "\nmm/ms");
+            singleLineTextViewArray.get(i).setText(String.format(formatter, lineTime) + " ms");
+            betweenTimeTextViewArray.get(i).setText(String.format(formatter, averageTime) + " ms");
+            totalTimeTextViewArray.get(i).setText(String.format(formatter, testTime) + " ms");
             //similarityTextViewArray.get(i).setText(Float.toString(lineTime) + "ms");
         }
         totalSpaceTime = totalSpaceTime/t;
@@ -114,16 +120,16 @@ public class ResultsActivity extends Activity {
 
         dataToSave.append("Tests average:\n");
         dataToSave.append("LinesCount: " + Integer.toString(totalLinesCount) + "\n");
-        dataToSave.append("HandSpeed: " + String.format("%.5g%n", averageSpeed) + "mm/ms");
-        dataToSave.append("TimeForSingleLine: " + String.format("%.5g%n", totalLinesTime) + "ms");
-        dataToSave.append("TimeSpaceBetweenLines: " + String.format("%.5g%n", totalSpaceTime) + "ms");
-        dataToSave.append("TotalTime: " + String.format("%.5g%n", totalTime) + "ms");
+        dataToSave.append("HandSpeed: " + String.format(formatter, averageSpeed) + " mm/ms\n");
+        dataToSave.append("TimeForSingleLine: " + String.format(formatter, totalLinesTime) + " ms\n");
+        dataToSave.append("TimeSpaceBetweenLines: " + String.format(formatter, totalSpaceTime) + " ms\n");
+        dataToSave.append("TotalTime: " + String.format(formatter, totalTime) + " ms\n");
 
         linesCountTextViewArray.get(t).setText(Integer.toString(totalLinesCount));
-        linesSpeedTextViewArray.get(t).setText(String.format("%.5g%n", averageSpeed) + "\nmm/ms");
-        singleLineTextViewArray.get(t).setText(String.format("%.5g%n", totalLinesTime) + "ms");
-        betweenTimeTextViewArray.get(t).setText(String.format("%.5g%n", totalSpaceTime) + "ms");
-        totalTimeTextViewArray.get(t).setText(String.format("%.5g%n", totalTime) + "ms");
+        linesSpeedTextViewArray.get(t).setText(String.format(formatter, averageSpeed) + "\nmm/ms");
+        singleLineTextViewArray.get(t).setText(String.format(formatter, totalLinesTime) + " ms");
+        betweenTimeTextViewArray.get(t).setText(String.format(formatter, totalSpaceTime) + " ms");
+        totalTimeTextViewArray.get(t).setText(String.format(formatter, totalTime) + " ms");
 
         saveToFile(dataToSave.toString(),profileName + formattedDate);
     }
@@ -243,6 +249,15 @@ public class ResultsActivity extends Activity {
     }
 
     public void onButtonShowGraph(View view) {
+        Intent intent = new Intent(view.getContext(), BarGraphActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("profileName",getIntent().getStringExtra("profileName"));
+        bundle.putFloat("totalTime",totalTime);
+        bundle.putFloat("totalSpaceTime",totalLinesTime);
+        bundle.putFloat("totalLinesTime",totalSpaceTime);
+        bundle.putFloat("averageSpeed",averageSpeed);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     private void saveToFile(String data, String fileName){

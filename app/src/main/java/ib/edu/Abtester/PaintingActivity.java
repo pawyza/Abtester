@@ -130,6 +130,7 @@ public class PaintingActivity extends AppCompatActivity implements Observer {
         }
         bundle.putStringArrayList("imagesNameList",images);
         bundle.putStringArrayList("drawingsFilePath",drawingsFilePath);
+        bundle.putString("profileName",getIntent().getStringExtra("profileName"));
         intent.putExtras(bundle);
         startActivity(intent);
     }

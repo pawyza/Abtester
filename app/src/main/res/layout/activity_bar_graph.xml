@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:gravity="center_horizontal"
+        android:text="@string/chart1"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/chartView2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_title2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:gravity="center_horizontal"
+        android:text="@string/chart2"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@+id/chartView1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/chartView1"
+        android:layout_width="180dp"
+        android:layout_height="210dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"></LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/chartView2"
+        android:layout_width="180dp"
+        android:layout_height="210dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"></LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/chartView3"
+        android:layout_width="180dp"
+        android:layout_height="210dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chartView2"></LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/chartView4"
+        android:layout_width="180dp"
+        android:layout_height="210dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chartView1"></LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_title3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:gravity="center_horizontal"
+        android:text="@string/chart3"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chartView4" />
+
+    <TextView
+        android:id="@+id/tv_title4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:gravity="center_horizontal"
+        android:text="@string/chart4"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chartView3" />
+
+    <Button
+        android:id="@+id/buttonReturn"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:onClick="onButtonReturn"
+        android:text="@string/menuReturn"
+        android:textColor="@color/bgWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</android.support.constraint.ConstraintLayout>
