@@ -54,23 +54,23 @@ public class BarGraphActivity extends Activity {
             XYSeries totalLinesTimeSeriesStandard = new XYSeries("Standard total single line time");
             XYSeries averageSpeedSeriesStandard = new XYSeries("Standard average speed");
 
-            totalTimeSeries.add(0,totalTime);
-            totalTimeSeriesStandard.add(1,defaultValues[3]);
+            totalTimeSeries.add(1,totalTime);
+            totalTimeSeriesStandard.add(2,defaultValues[3]);
             totalTimeSeries.add(3,0);
             totalTimeSeriesStandard.add(4,0);
 
-            totalSpaceTimeSeries.add(0,totalSpaceTime);
-            totalSpaceTimeSeriesStandard.add(1,defaultValues[2]);
+            totalSpaceTimeSeries.add(1,totalSpaceTime);
+            totalSpaceTimeSeriesStandard.add(2,defaultValues[2]);
             totalSpaceTimeSeries.add(3,0);
             totalSpaceTimeSeriesStandard.add(4,0);
 
-            totalLinesTimeSeries.add(0,totalLinesTime);
-            totalLinesTimeSeriesStandard.add(1,defaultValues[1]);
+            totalLinesTimeSeries.add(1,totalLinesTime);
+            totalLinesTimeSeriesStandard.add(2,defaultValues[1]);
             totalLinesTimeSeries.add(3,0);
             totalLinesTimeSeriesStandard.add(4,0);
 
-            averageSpeedSeries.add(0,averageSpeed);
-            averageSpeedSeriesStandard.add(1,defaultValues[0]);
+            averageSpeedSeries.add(1,averageSpeed);
+            averageSpeedSeriesStandard.add(2,defaultValues[0]);
             averageSpeedSeries.add(3,0);
             averageSpeedSeriesStandard.add(4,0);
 

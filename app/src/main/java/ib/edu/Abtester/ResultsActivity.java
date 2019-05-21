@@ -2,27 +2,31 @@ package ib.edu.Abtester;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import ib.edu.Abtester.R;
 
 public class ResultsActivity extends Activity {
 
@@ -38,6 +42,8 @@ public class ResultsActivity extends Activity {
     private ArrayList<TextView>  betweenTimeTextViewArray;
     private ArrayList<TextView>  totalTimeTextViewArray;
     private ArrayList<TextView>  similarityTextViewArray;
+    DatabaseReference refTests;
+    StorageReference refTestsStorage;
     private String profileName;
 
     private int totalLinesCount = 0;
@@ -52,6 +58,8 @@ public class ResultsActivity extends Activity {
         setContentView(R.layout.activity_results);
         findTextViews();
         loadData();
+        refTests = FirebaseDatabase.getInstance().getReference("TestResults");
+        refTestsStorage = FirebaseStorage.getInstance().getReference("TestsResultsImages");
         calculateAndSetup();
     }
 
@@ -77,13 +85,14 @@ public class ResultsActivity extends Activity {
     private void calculateAndSetup(){
         int t = drawingsFilePath.size();
 
-        Date c = Calendar.getInstance().getTime();
+        Date date = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
-        String formattedDate = df.format(c);
+        String formattedDate = df.format(date);
 
         StringBuilder dataToSave = new StringBuilder("Test " + profileName + " " + formattedDate + "\n");
+        DatabaseReference refProfile = refTests.child(profileName).child(formattedDate);
+        StorageReference refProfileStorage = refTestsStorage.child(profileName).child(formattedDate);
 
-        
         String formatter = "%.5g";
         
         for(int i = 0; i<t;i++) {
@@ -93,6 +102,8 @@ public class ResultsActivity extends Activity {
             float spaceTime = calcSpaceTime(timeList.get(i),linesCount); //czas między liniami
             float averageTime = calcAverageSpaceTime(spaceTime,linesCount); //czas przerw na kazda linie
             float handSpeed = calcHandSpeed(xPositionsList.get(i), yPositionsList.get(i), testTime, spaceTime); // predkosc dloni
+
+            uploadResult(i,refProfile,refProfileStorage);
 
             totalSpaceTime += spaceTime;
             totalLinesCount += linesCount;
@@ -131,7 +142,7 @@ public class ResultsActivity extends Activity {
         betweenTimeTextViewArray.get(t).setText(String.format(formatter, totalSpaceTime) + " ms");
         totalTimeTextViewArray.get(t).setText(String.format(formatter, totalTime) + " ms");
 
-        saveToFile(dataToSave.toString(),profileName + formattedDate);
+        //saveToFile(dataToSave.toString(),profileName + formattedDate);
     }
 
     private void findTextViews(){
@@ -260,6 +271,7 @@ public class ResultsActivity extends Activity {
         startActivity(intent);
     }
 
+    /*
     private void saveToFile(String data, String fileName){
         File file = new File(getApplicationContext().getExternalFilesDir(Environment.getExternalStorageDirectory().getAbsolutePath() + "/data/"), fileName + ".txt");
         Log.i("PathInfo", "Location: " + file.getAbsolutePath());
@@ -269,5 +281,74 @@ public class ResultsActivity extends Activity {
             e.printStackTrace();
         }
         drawingsFilePath.add(file.getAbsolutePath());
+    }
+    */
+
+
+
+    private void uploadResult(int i,DatabaseReference refProfile, StorageReference refProfileStorage) {
+
+        Date date = Calendar.getInstance().getTime();
+        TestResult tr = new TestResult(profileName,
+                images.get(i).substring(images.get(i).lastIndexOf("/")+1),
+                date,
+                toList(xPositionsList.get(i)),
+                toList(yPositionsList.get(i)),
+                toList(timeList.get(i)),
+                toList(stateList.get(i)));
+
+        try{
+            refProfile.child(images.get(i).substring(images.get(i).lastIndexOf("/")+1)).setValue(tr);
+
+            Toast.makeText(ResultsActivity.this, "Test " + String.valueOf(i) + " pushed.", Toast.LENGTH_LONG).show();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            Toast.makeText(ResultsActivity.this, "Test " + String.valueOf(i) + " pushing failed.", Toast.LENGTH_LONG).show();
+        }
+        
+        StorageReference refImage = refProfileStorage.child(images.get(i).substring(images.get(i).lastIndexOf("/")+1) + " Date: " + date.toString());
+        Uri file = Uri.fromFile(new File(drawingsFilePath.get(i)));
+        
+        refImage.putFile(file)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // Get a URL to the uploaded content
+                        //Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                        Toast.makeText(ResultsActivity.this,"Test image " + String.valueOf(i) + " uploaded.", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle unsuccessful uploads
+                        // ...
+                        Toast.makeText(ResultsActivity.this,"Test image " + String.valueOf(i) + " uploading failed.", Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    private List<Long> toList(long[] arr){
+        List<Long> list = new ArrayList<>();
+        for(long f : arr){
+            list.add(f);
+        }
+        return list;
+    }
+
+    private List<Boolean> toList(boolean[] arr){
+        List<Boolean> list = new ArrayList<>();
+        for(boolean f : arr){
+            list.add(f);
+        }
+        return list;
+    }
+
+    private List<Float> toList(float[] arr){
+        List<Float> list = new ArrayList<>();
+        for(float f : arr){
+            list.add(f);
+        }
+        return list;
     }
 }

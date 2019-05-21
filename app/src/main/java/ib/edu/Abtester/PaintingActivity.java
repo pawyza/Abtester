@@ -72,7 +72,7 @@ public class PaintingActivity extends AppCompatActivity implements Observer {
             state = new ArrayList<>();
             prepareImageView(testsCount);
             try {
-                startCountdown(1);
+                startCountdown(3);
             } catch (InterruptedException e){
                 e.printStackTrace();
             }
